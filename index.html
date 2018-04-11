@@ -1,0 +1,114 @@
+<!--
+Attributions:
+  Milligram - https://github.com/milligram/milligram
+  ionicons - http://ionicons.com/
+  ethjs - https://github.com/ethjs/ethjs
+  Google Material Design Color Palatte - https://htmlcolorcodes.com/color-chart/material-design-color-chart/
+  Chart.js - http://www.chartjs.org/
+-->
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <!-- jquery is here because scripts need it early on. may want to move other js imports here. -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" type="text/css" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/themes/dark1.css">-->
+
+    <!--<link rel="stylesheet" type="text/css" href="/css/dark_custom.css">-->
+    <title>Token Hashrates</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165354-1"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var el = function(id){ return document.querySelector(id); };
+
+      var log = function(){
+        // 1. Convert args to a normal array
+        var args = Array.prototype.slice.call(arguments);
+        // 2. Prepend log prefix log string
+        args.unshift(((Date.now()-globalTimerStart)/1000).toFixed(2) + 's ');
+        // 3. Pass along arguments to console.log
+        console.log.apply(console, args);
+      }
+      var globalTimerStart = Date.now();
+
+    </script>
+    <div class="container">
+      <div class="row">
+        <div class="column"><h1>Token Hashrates</h1></div>
+        <!--<div class="column"><h1>Subtitle</h1></div>-->
+      </div>
+      <div class="row">
+        <div class="column"><i>Live hashrate of the top erc-20 tokens.</i></div>
+      </div>
+      <!-- navigation bar -->
+      <!--
+      <div class="row">
+        <div class="column">
+          <ul id="navigation" class="nav">
+            <li class="nav"><a href="./?page=stats#">stats</a></li>
+            <li class="nav"><a href="./?page=stats#miners">miners</a></li>
+            <li class="nav"><a href="./?page=stats#blocks">blocks</a></li>
+            <li class="nav"><a href="./?page=stats#miningcalculator">mining calculator</a></li>
+            <li class="nav"><a href="./?page=graphs#difficulty">difficulty / hashrate <span style="color:#FF1744;">(new)</span></a></li>
+            <li class="nav"><a href="./?page=graphs#reward-time">reward time / supply</a></li>
+          </ul>
+        </div>
+      </div>
+      -->
+
+      <div id="row-difficulty" class="add-top-padding-half">
+        <div class="row">
+          <div class="column">
+            <!-- chart tooltips: these need to be inside same container as chart -->
+            <div class="chartjs-tooltip" id="tooltip-0"></div>
+            <div class="chartjs-tooltip" id="tooltip-1"></div>
+            <div class="chartjs-tooltip" id="tooltip-2"></div>
+            <div class="chartjs-tooltip" id="tooltip-3"></div>
+            <div class="chartjs-tooltip" id="tooltip-4"></div>
+            <div class="chartjs-tooltip" id="tooltip-5"></div>
+            <div class="chartjs-tooltip" id="tooltip-6"></div>
+            <div class="chartjs-tooltip" id="tooltip-7"></div>
+            <div class="chartjs-tooltip" id="tooltip-8"></div>
+            <div class="chartjs-tooltip" id="tooltip-9"></div>
+            <div id='hashrates'>
+              Loading info from the blockchain...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="row-footer">
+        <div class="row add-top-padding">
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/ethereumjs-testrpc.js"></script>
+    <script type="text/javascript" src="js/ethjs.js"></script>
+    <script type="text/javascript" src="js/abi.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/graphs.js"></script>
+
+    <script type="text/javascript">
+      try {
+        $(document).ready(function() {
+           log("DOMready");
+        });
+      } catch (err) {
+        log('failed to set DOMready fn. Jquery load error?');
+        el('#hashrates').innerHTML = "Sorry, failed to load jquery. Try again later.";
+        fail;
+      } finally {
+        updateGraphData();
+      }
+    </script>
+  </body>
+</html>
