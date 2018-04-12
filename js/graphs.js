@@ -1,4 +1,78 @@
 
+
+var token_list = [
+  {
+    name: '0xBitcoin',
+    has_hashrate: true,
+    contract_address: '0xB6eD7644C69416d67B522e20bC294A9a9B405B31',
+    website: 'https://0xbitcoin.org/',
+  },{
+    name: 'EOS',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://eos.io/',
+  },{
+    name: 'Tronix',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://tron.network/en.html',
+  //'VeChain Token',
+  },{
+    name: 'VeChain',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://www.vechain.org/',
+  },{
+    name: 'BNB',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://info.binance.com/en/currencies/binance-coin',
+  },{
+    name: 'OMGToken',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://omisego.network/',
+  },{
+    name: 'ICON',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://icon.foundation/?lang=en',
+  },{
+    name: 'Bytom',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://bytom.io/',
+  //'Populus Platform',
+  },{
+    name: 'Populus',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://populous.co/',
+  },{
+    name: 'Digix DAO',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://digix.global/',
+  },
+];
+
+
+function showTableData() {
+  var innerhtml_buffer = '<tr><th>Name</th><th>Website</th>'
+    + '<th>Hashrate</th></tr>';
+  for (token_idx in token_list) {
+    var token = token_list[token_idx];
+
+    innerhtml_buffer += '<tr><td>' + token.name 
+    + '</td><td><a href="' + token.website + '">' + token.website + '</a>'
+    + '</td><td id="tokenhashrate-' + token_idx + '">' + '-.- Mh/s' + '</td></tr>';
+  }
+  el('#hashrates-table').innerHTML = innerhtml_buffer;
+
+  //toReadableHashrate(estimated_network_hashrate, false)
+}
+
+
 /*Helper class for loading historical data from ethereum contract variables.
   Initialize with an ethjs object, target contract address, and an integer 
   index that points to your desired variable in in the contract's storage area
@@ -482,74 +556,75 @@ async function updateDifficultyGraph(eth, num_days){
       function getMiningDifficulty() public constant returns (uint) 
         return _MAXIMUM_TARGET.div(miningTarget);
   */
-  var contract_address = '0xB6eD7644C69416d67B522e20bC294A9a9B405B31';
-  var max_blocks = num_days*24*60*(60/15);
-  var initial_search_points = num_days*2; /* in some crazy world where readjustments happen every day, this will catch all changes */
-
-  //var current_eth_block = getValueFromStats('Last Eth Block', stats);
-  var current_eth_block = parseInt((await eth.blockNumber()).toString(10), 10);
-
-  // 'reward era' is at location 7
-  var era_values = new contractValueOverTime(eth, contract_address, '7');
-  era_values.addValuesInRange((current_eth_block-max_blocks), current_eth_block, initial_search_points);
-
-  // 'mining target' is at location 11
-  var mining_target_values = new contractValueOverTime(eth, contract_address, '11');
-  mining_target_values.addValuesInRange((current_eth_block-max_blocks), current_eth_block, initial_search_points);
-  await refine_mining_target_values(mining_target_values);
-  
-  /* Note: we sort these down here because we need to wait until values are
-     loaded before sorting. technically we should explicitly wait, but these
-     should finish long before refining the mining targets */
-  era_values.sortValues();
-  era_values.printValuesToLog();
-  era_values.deleteLastPointIfZero();
-
-  var hashrate_data = generateDifficultyGraphData(eth, mining_target_values, era_values);
-
-
-  var shittokens = [
-    'EOS',
-    'Tronix',
-    //'VeChain Token',
-    'VeChain',
-    'BNB',
-    'OMGToken',
-    'ICON',
-    'Bytom',
-    //'Populus Platform',
-    'Populus',
-    'Digix DAO',
-  ];
-
-  var oxbtc_chart_data = 
-  {
-    name: '0xBitcoin',
-    data: hashrate_data,
-  };
-
-  var zeroed_hashrate_data = [];
-  for (var i = 0; i < hashrate_data.length; i++) {
-    zeroed_hashrate_data.push({
-      x: hashrate_data[i].x,
-      y: 0,
-    });
-  }
 
   var all_chart_data = [];
+  var zeroed_hashrate_data = [];
 
-  all_chart_data.push(oxbtc_chart_data);
-  for (i in shittokens) {
-    all_chart_data.push({
-      name: shittokens[i],
-      data: zeroed_hashrate_data,
-    });
+  /* for now, we parse 0xbitcoin first and generate the zeroed_data in the first
+     pass - this way its available before tokens w/o hashrates are processed */
+  for (token_idx in token_list) {
+    var token_name = token_list[token_idx].name;
+    var token_has_hashrate = token_list[token_idx].has_hashrate;
+    var contract_address = token_list[token_idx].contract_address;
+
+    /* for now, 0xBitcoin is the only token using this inteface */
+    switch(token_name) {
+      case '0xBitcoin':
+        var max_blocks = num_days*24*60*(60/15);
+        var initial_search_points = num_days*2;
+
+        var current_eth_block = parseInt((await eth.blockNumber()).toString(10), 10);
+
+        // 'reward era' is at location 7
+        var era_values = new contractValueOverTime(eth, contract_address, '7');
+        era_values.addValuesInRange((current_eth_block-max_blocks), current_eth_block, initial_search_points);
+
+        // 'mining target' is at location 11
+        var mining_target_values = new contractValueOverTime(eth, contract_address, '11');
+        mining_target_values.addValuesInRange((current_eth_block-max_blocks), current_eth_block, initial_search_points);
+        await refine_mining_target_values(mining_target_values);
+        
+        /* Note: we sort these down here because we need to wait until values are
+           loaded before sorting. technically we should explicitly wait, but these
+           should finish long before refining the mining targets */
+        era_values.sortValues();
+        era_values.printValuesToLog();
+        era_values.deleteLastPointIfZero();
+
+        var hashrate_data = generateDifficultyGraphData(eth, mining_target_values, era_values);
+
+        var zeroed_hashrate_data = [];
+        for (var i = 0; i < hashrate_data.length; i++) {
+          zeroed_hashrate_data.push({
+            x: hashrate_data[i].x,
+            y: 0,
+          });
+        }        
+
+
+        all_chart_data.push({
+          name: token_name,
+          data: hashrate_data,
+        });
+        break;
+      default:
+        all_chart_data.push({
+          name: token_name,
+          data: zeroed_hashrate_data,
+        });
+        break;
+    }
+    
+    var last_hr_data = all_chart_data[all_chart_data.length-1].data;
+
+    el('#tokenhashrate-'+token_idx.toString(10)).innerHTML = toReadableHashrate(last_hr_data[last_hr_data.length-1].y);
   }
 
-  showDifficultyGraph(all_chart_data);  
+  showDifficultyGraph(all_chart_data);
 }
 
 function updateGraphData() {
+  showTableData();
   setTimeout(()=>{updateDifficultyGraph(eth, 30)}, 0); /* 30 days */
   updateLastUpdatedTime();
 }
