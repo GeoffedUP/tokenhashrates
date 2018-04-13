@@ -455,7 +455,7 @@ function generateDifficultyGraphData(eth, target_cv_obj, era_cv_obj) {
   }
 
   function getHashrateDataFromDifficultyAndErasPerBlockData(difficulty_data, eras_per_block_data) {
-    var expected_eras_per_block = 1/60; /* should be 60 times slower than ethereum */
+    var expected_eras_per_block = 1/40; /* should be 40 times slower than ethereum (with 15-second eth blocks) */
     var difficulty_data_index = 0;
     var difficulty_change_block_num = 0;
     var chart_data = []
