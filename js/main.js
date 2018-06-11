@@ -117,6 +117,37 @@ function toReadableHashrate(hashrate, should_add_b_tags) {
   return hashrate_string + ' ' + final_unit;
 }
 
+/* convert to readable.. but also hide many values */
+function toReadableHashrateForLogScale(hashrate, should_add_b_tags) {
+  units = ['H/s', 'Kh/s', 'Mh/s', 'Gh/s', 'Th/s', 'Ph/s'];
+  var final_unit = 'Eh/s';
+  for(idx in units) {
+    var unit = units[idx];
+    if(hashrate < 1000) {
+      final_unit = unit;
+      break;
+    } else {
+      hashrate /= 1000;
+    }
+  }
+  for (var exp=0; exp < 3; exp++) {
+    if(hashrate == 2*10**exp
+       || hashrate == 4*10**exp
+       || hashrate == 5*10**exp
+       //|| hashrate == 6*10**exp0
+       || hashrate == 7*10**exp
+       || hashrate == 8*10**exp
+       || hashrate == 9*10**exp) {
+      return '';
+    }
+  }
+  var hashrate_string = hashrate.toFixed(2);
+  if(should_add_b_tags) {
+    hashrate_string = '<b>' + hashrate_string + '</b>';
+  }
+  return hashrate_string + ' ' + final_unit;
+}
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
