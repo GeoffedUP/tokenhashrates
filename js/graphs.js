@@ -50,12 +50,12 @@ var token_list = [
     website: 'http://0xlitecointoken.github.io',
     creation_height: 5741744,
   },{
-    name: 'Skorch Token Legacy Legacy',
-    has_hashrate: true,
-    contract_address: '0xd83caa129d9d7080a15d26499733f783eb14e667',
-    website: 'https://skorch.io/',
-    creation_height: 5751609,
-  },{
+  //   name: 'Skorch Token Legacy Legacy',
+  //   has_hashrate: true,
+  //   contract_address: '0xd83caa129d9d7080a15d26499733f783eb14e667',
+  //   website: 'https://skorch.io/',
+  //   creation_height: 5751609,
+  // },{
     name: 'Skorch Token Legacy',
     has_hashrate: true,
     contract_address: '0x4aFF03b46792Ba7f65403a0d96B2Fb8CA8D54367',
@@ -79,26 +79,26 @@ var token_list = [
     contract_address: '0xd72F60b2E7649bBC5835d25e30Ef917f04D9131c',
     website: 'https://atlantistoken.org/',
     creation_height: 5776186,
-  // },{
-  //   name: 'EOS',
-  //   has_hashrate: false,
-  //   contract_address: '',
-  //   website: '  https://eos.io/',
-  // },{
-  //   name: 'Tronix',
-  //   has_hashrate: false,
-  //   contract_address: '',
-  //   website: 'https://tron.network/en.html',
-  // },{
-  //   name: 'VeChain',
-  //   has_hashrate: false,
-  //   contract_address: '',
-  //   website: 'https://www.vechain.org/',
-  // },{
-  //   name: 'BNB',
-  //   has_hashrate: false,
-  //   contract_address: '',
-  //   website: 'https://info.binance.com/en/currencies/binance-coin',
+  },{
+    name: 'EOS',
+    has_hashrate: false,
+    contract_address: '',
+    website: '  https://eos.io/',
+  },{
+    name: 'Tronix',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://tron.network/en.html',
+  },{
+    name: 'VeChain',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://www.vechain.org/',
+  },{
+    name: 'BNB',
+    has_hashrate: false,
+    contract_address: '',
+    website: 'https://info.binance.com/en/currencies/binance-coin',
   // },{
   //   name: 'OMGToken',
   //   has_hashrate: false,
@@ -128,7 +128,6 @@ var token_list = [
   },
 ];
 
-
 function showTableData() {
   var innerhtml_buffer = '<tr><th>Name</th><th>Website</th>'
     + '<th>Hashrate</th></tr>';
@@ -140,10 +139,7 @@ function showTableData() {
     + '</td><td id="tokenhashrate-' + token_idx + '">' + '-.- Mh/s' + '</td></tr>';
   }
   el('#hashrates-table').innerHTML = innerhtml_buffer;
-
-  //toReadableHashrate(estimated_network_hashrate, false)
 }
-
 
 /*Helper class for loading historical data from ethereum contract variables.
   Initialize with an ethjs object, target contract address, and an integer 
@@ -179,9 +175,6 @@ class contractValueOverTime {
   /* fetch query_count states between start_block_num and end_block_num */
   addValuesInRange(start_block_num, end_block_num, query_count) {
     var stepsize = (end_block_num-start_block_num) / query_count;
-
-    //log('stepsize', stepsize);
-
     for (var count = 0; count < query_count; count += 1) {
       this.addValueAtEthBlock(end_block_num - (stepsize*count));
     }
@@ -203,21 +196,11 @@ class contractValueOverTime {
       }
       var hex_str = value.substr(2, 64);
       var value_bn = new Eth.BN(hex_str, 16)
-
-      //log('  got value', value, hex_str, '@ block', eth_block_num)
-
       /* [block num, value @ block num, timestamp of block num] */
       var len = block_states.push([eth_block_num, value_bn, '']);
 
-      // function setValue(save_fn) {
-      //   return function(value) {
-      //     save_fn(value);
-      //   }
-      // }
-
       /* TODO: uncomment this to use timestamps embedded in block */
       // eth.getBlockByNumber(eth_block_num, true).then(setValue((value)=>{block_states[len-1][2]=value.timestamp.toString(10)}))
-
     }
   }
   addValueAtEthBlock(eth_block_num) {
@@ -364,10 +347,12 @@ function showDifficultyGraph(chart_data) {
     'rgb( 41, 182, 246)', // light blue
     'rgb(126,  87, 194)', // purple
     'rgb(126,  87, 194)', // purple
-    'rgb(126,  87, 194)', // purple
     'rgb(141, 110,  99)', // brown
     'rgb(174, 234,   0)', // lime
     'rgb(236,  64, 122)', // pink
+    '#448AFF', // dark(er) blue
+    '#FFC107', // amber
+    '#303F9F', // indigo
 
   ]
 
@@ -497,7 +482,6 @@ function showDifficultyGraph(chart_data) {
 }
 
 
-
 function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to_hashrate_equation, max_target_bn, target_cv_obj, era_cv_obj) {
   el('#hashrates').innerHTML = '<canvas id="chart-hashrate-difficulty" width="4rem" height="2rem"></canvas>';
   var target_values = target_cv_obj.getValues;
@@ -517,9 +501,6 @@ function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to
         x: values[i][0],
         y: value_mod_function(values[i][1]),
       })
-      //console.log('log', values[i][0], value_mod_function(values[i][1]))
-      //labels.push(values[i][0]);
-      //chart_data.push(_MAXIMUM_TARGET_BN.div(values[i][1]));
     }
     return chart_data;
   }
@@ -541,9 +522,6 @@ function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to
         x: era_values[step][0],
         y: eras_per_eth_block,
       })
-      //console.log('log', era_values[step][0], value_mod_function(era_values[step][1]))
-      //labels.push(era_values[step][0]);
-      //chart_data.push(_MAXIMUM_TARGET_BN.div(values[step][1]));
     }
     return chart_data;
   }
@@ -562,9 +540,6 @@ function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to
         difficulty_change_block_num = difficulty_data[difficulty_data_index+1].x;
         difficulty_data_index += 1;
       }
-
-      //console.log('diff chg @', difficulty_change_block_num);
-
       var difficulty = difficulty_data[difficulty_data_index].y.toNumber();
 
       /* if difficulty change occurs within this step window */
@@ -587,16 +562,8 @@ function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to
            value. */
         var last_difficulty = difficulty_data[difficulty_data_index-1].y.toNumber();
 
-        // console.log('step size', step_size_in_eth_blocks);
-        // console.log('dif', difficulty);
-        // console.log('d curr', eras_per_block_data[step].x, diff1_duration, current_difficulty);
-        // console.log('d  old', eras_per_block_data[step-1].x, diff2_duration, last_difficulty);
-
         difficulty = (current_difficulty * (diff1_duration/step_size_in_eth_blocks))
                      + (last_difficulty * (diff2_duration/step_size_in_eth_blocks));
-        //console.log('d', difficulty);
-
-
       }
 
       var unadjusted_network_hashrate = difficulty_to_hashrate_equation(difficulty);
@@ -616,13 +583,8 @@ function generateDifficultyGraphData(eth, expected_eras_per_block, difficulty_to
   var difficulty_data = convertValuesToChartData(target_values, 
                                                  (x)=>{return max_target_bn.div(x)});
   var era_data = convertValuesToChartData(era_values);
-
   var eras_per_block_data = getErasPerBlockFromEraData(era_values);
-
   var hashrate_data = getHashrateDataFromDifficultyAndErasPerBlockData(difficulty_data, eras_per_block_data);
-
-  var all_chart_data = [];
-
 
   return hashrate_data;
 }
@@ -643,14 +605,12 @@ async function refine_mining_target_values(mining_target_values){
   mining_target_values.removeExtraValuesForStepChart();
 }
 
-
 async function updateDifficultyGraph(eth, num_days){
   /*
   note: this is implementation of diff. in contract:
       function getMiningDifficulty() public constant returns (uint) 
         return _MAXIMUM_TARGET.div(miningTarget);
   */
-
   var all_chart_data = [];
   var zeroed_hashrate_data = [];
   
@@ -679,7 +639,6 @@ async function updateDifficultyGraph(eth, num_days){
         data: zeroed_hashrate_data,
       });
     } else {
-      /* for now, 0xBitcoin is the only token using this inteface */
       switch(token_name) {
         case '0xCATE':
           var mining_target_contract_index = '10';
@@ -727,12 +686,6 @@ async function updateDifficultyGraph(eth, num_days){
       var mining_target_values = new contractValueOverTime(eth, contract_address, mining_target_contract_index);
       mining_target_values.addValuesInRange((current_eth_block-max_blocks), current_eth_block, initial_search_points);
       await refine_mining_target_values(mining_target_values);
-
-      // divide target by 1024 so generateDifficultyGraphData works for CATE
-      // for (var i in mining_target_values.states) {
-      //   //log(mining_target_values.states[i])
-      //   mining_target_values.states[i][1] = mining_target_values.states[i][1].mul(new Eth.BN(1024))
-      // }
       
       /* Note: we sort these down here because we need to wait until values are
          loaded before sorting. technically we should explicitly wait, but these
@@ -751,7 +704,6 @@ async function updateDifficultyGraph(eth, num_days){
 
     
     var last_hr_data = all_chart_data[all_chart_data.length-1].data;
-
     el('#tokenhashrate-'+token_idx.toString(10)).innerHTML = toReadableHashrate(last_hr_data[last_hr_data.length-1].y);
   }
 

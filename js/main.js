@@ -8,17 +8,7 @@ const _MINIMUM_TARGET = 2**16;
 const _MINIMUM_TARGET_BN = new Eth.BN(_MINIMUM_TARGET);
 const _ZERO_BN = new Eth.BN(0, 10);
 
-
-/* TODO: figure out why it doesn't work w metamask */
 var eth = new Eth(new Eth.HttpProvider("https://mainnet.infura.io/MnFOXCPE2oOhWpOCyEBT"));
-// if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
-//   var eth = new Eth(window.web3.currentProvider);
-// } else {
-//   var eth = new Eth(new Eth.HttpProvider("https://mainnet.infura.io/MnFOXCPE2oOhWpOCyEBT"));
-//   log("warning: no web3 provider found, using infura.io as backup provider")
-// }
-
-
 const token = eth.contract(tokenABI).at(_CONTRACT_ADDRESS);
 
 
@@ -40,7 +30,6 @@ function ethBlockNumberToTimestamp(eth_block) {
   /* blockDate = new Date(web3.eth.getBlock(startBlock-i+1).timestamp*1000); */
   return new Date(Date.now() - ((latest_eth_block - eth_block)*15*1000)).toLocaleString()
 }
-
 
 
 function secondsToReadableTime(seconds) {
