@@ -132,9 +132,10 @@ function toReadableHashrateForLogScale(hashrate, should_add_b_tags) {
   }
   for (var exp=0; exp < 3; exp++) {
     if(hashrate == 2*10**exp
+       //|| hashrate == 3*10**exp
        || hashrate == 4*10**exp
        || hashrate == 5*10**exp
-       //|| hashrate == 6*10**exp0
+       || hashrate == 6*10**exp
        || hashrate == 7*10**exp
        || hashrate == 8*10**exp
        || hashrate == 9*10**exp) {

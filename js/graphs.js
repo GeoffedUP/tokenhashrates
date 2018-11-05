@@ -354,16 +354,20 @@ class contractValueOverTime {
 
 function showDifficultyGraph(chart_data) {
   var colors = [
-    'rgb(156, 204, 101)', // green
-    'rgb(239,  83,  80)', // red
-    'rgb( 41, 182, 246)', // light blue
-    'rgb( 38, 166, 154)', // teal
-    'rgb(126,  87, 194)', // purple
-    'rgb(255, 238,  88)', // yellow
-    'rgb(236,  64, 122)', // pink
-    'rgb(189, 189, 189)', // grey
-    'rgb(141, 110,  99)', // brown
     'rgb(255, 167,  38)', // orange
+    'rgb(189, 189, 189)', // grey
+    'rgb(156, 204, 101)', // green
+    'rgb(97,  97,   97)', // dark grey
+    'rgb(239,  83,  80)', // red
+    'rgb(255, 238,  88)', // yellow
+    'rgb( 38, 166, 154)', // teal
+    'rgb( 41, 182, 246)', // light blue
+    'rgb(126,  87, 194)', // purple
+    'rgb(126,  87, 194)', // purple
+    'rgb(126,  87, 194)', // purple
+    'rgb(141, 110,  99)', // brown
+    'rgb(174, 234,   0)', // lime
+    'rgb(236,  64, 122)', // pink
 
   ]
 
@@ -756,6 +760,6 @@ async function updateDifficultyGraph(eth, num_days){
 
 function updateGraphData() {
   showTableData();
-  setTimeout(()=>{updateDifficultyGraph(eth, 30)}, 0); /* 30 days */
+  setTimeout(()=>{updateDifficultyGraph(eth, 60)}, 0); /* 30 days */
   updateLastUpdatedTime();
 }
