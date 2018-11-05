@@ -2,56 +2,84 @@
 
 var token_list = [
   {
-    name: '0xBitcoin',
+    name: '0xBitcoin', 
     has_hashrate: true,
     contract_address: '0xB6eD7644C69416d67B522e20bC294A9a9B405B31',
     website: 'https://0xbitcoin.org/',
+    creation_height: 5039000,
   },{
     name: '0xCATE',
     has_hashrate: true,
     contract_address: '0x8f7dbf90e71285552a687097220e1035c2e87639',
     website: 'https://catether.org/',
+    creation_height: 5562785,
   },{
     name: 'KIWI',
     has_hashrate: true,
     contract_address: '0x2BF91c18Cd4AE9C2f2858ef9FE518180F7B5096D',
     website: 'http://www.thekiwi.online/',
-  },{
-    name: '0xDiary',
-    has_hashrate: true,
-    contract_address: '0x6056247d57fbf1e7d2ca01b9b2ac03a12061221b',
-    website: 'https://0xhorcrux.github.io/0xdiary/',
-  },{
-    name: '0xBitcoinCash',
-    has_hashrate: true,
-    contract_address: '0xe5b9746dfCC2eF1054D47A451A77bb5f390c468d',
-    website: 'https://0xbitcoincash.io',
-  },{
-    name: 'Skorch Token',
-    has_hashrate: true,
-    contract_address: '0xd83caa129d9d7080a15d26499733f783eb14e667',
-    website: 'https://0xbitcoincash.io',
+    creation_height: 5565456,
   },{
     name: '0xZibit',
     has_hashrate: true,
     contract_address: '0x7fb550255d0daf6de4d9b8d5275d2dc28619b78d',
     website: 'http://0xzibittoken.org/',
-  },{
-    name: '0xLTC',
-    has_hashrate: true,
-    contract_address: '0x012fd5049a203df08c02fb2e0ed15ceed10d9ed4',
-    website: 'http://0xlitecointoken.github.io',
+    creation_height: 5653337,
   },{
     name: 'RAMEN',
     has_hashrate: true,
     contract_address: '0xee8965ca57f9d252a8d5da1faa5f7d85ad78a24f',
     website: 'https://ramencoin.me/',
+    creation_height: 5718664,
   },{
     name: '0xDogecoin',
     has_hashrate: true,
     contract_address: '0x97a89a0286a673ac8cdabbc42e5b2aaae74b09e5',
     website: 'http://0xdogecoin.com/',
+    creation_height: 5728035,
   },{
+    name: '0xBitcoinCash',
+    has_hashrate: true,
+    contract_address: '0xe5b9746dfCC2eF1054D47A451A77bb5f390c468d',
+    website: 'https://0xbitcoincash.io',
+    creation_height: 5732840,
+  },{
+    name: '0xLTC',
+    has_hashrate: true,
+    contract_address: '0x012fd5049a203df08c02fb2e0ed15ceed10d9ed4',
+    website: 'http://0xlitecointoken.github.io',
+    creation_height: 5741744,
+  },{
+    name: 'Skorch Token Legacy Legacy',
+    has_hashrate: true,
+    contract_address: '0xd83caa129d9d7080a15d26499733f783eb14e667',
+    website: 'https://skorch.io/',
+    creation_height: 5751609,
+  },{
+    name: 'Skorch Token Legacy',
+    has_hashrate: true,
+    contract_address: '0x4aFF03b46792Ba7f65403a0d96B2Fb8CA8D54367',
+    website: 'https://skorch.io/',
+    creation_height: 5773054,
+  },{
+    name: 'Skorch Token',
+    has_hashrate: true,
+    contract_address: '0xb3dc3c839a02134f9932cbd60f3566c231cc90cc',
+    website: 'https://skorch.io/',
+    creation_height: 5884051,
+  },{
+    name: '0xDiary',
+    has_hashrate: true,
+    contract_address: '0x6056247d57fbf1e7d2ca01b9b2ac03a12061221b',
+    website: 'https://0xhorcrux.github.io/0xdiary/',
+    creation_height: 5760557,
+  },{
+    name: 'Atlantis',
+    has_hashrate: true,
+    contract_address: '0xd72F60b2E7649bBC5835d25e30Ef917f04D9131c',
+    website: 'https://atlantistoken.org/',
+    creation_height: 5776186,
+  // },{
   //   name: 'EOS',
   //   has_hashrate: false,
   //   contract_address: '',
